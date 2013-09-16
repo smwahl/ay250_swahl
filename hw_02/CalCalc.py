@@ -6,6 +6,10 @@ Calculator module for AY-250 python class
 
 # import packages
 import argparse
+import urllib2 as ul
+import re
+from lxml import etree
+
 
 def calculate(inputStr,force_eval=False,force_wolfram=False):
     '''Evaluates any string passed to it, and can be used from either the command line.
@@ -29,15 +33,50 @@ $  7.3459e+22
 
     if force_wolfram == False:
         try:
-            return eval(inputStr)
+            return str(eval(inputStr))
         except:
                 print "Exception raised using python's eval().",
                 if force_eval == False: print  " Trying wolfram alpha instead." 
                 else: print " "
 
     if force_eval == False:
-        print 'Wolfram alpha api not yet implemented'
+        # get url for wolfram api
+        wolfStr = re.sub('\s+',r'%20',inputStr)
+        url_name = ''.join(['http://api.wolframalpha.com/v2/query?input=',wolfStr,'&appid=UAGAWR-3X6Y8W777Q'])
+        wolfram_url = ul.urlopen(url_name)
 
+        # Parse xml
+        tree = etree.parse(wolfram_url)
+
+        # determine if query was successful
+        try:
+            query = tree.iter().next()
+            queryDict = dict(query.items())
+            query_success = bool(queryDict['success'])  
+        except:
+            print 'Unexpected Error: Problem finding result with Wolfram Alpha api'
+            raise
+
+        # find the and return the plaintext result
+        if query_success:
+            pods = tree.findall('.//pod')
+            for pod in pods:
+                try:
+                    podDict =  dict(pod.items())
+                    if podDict['title']=='Result':
+                        print 'found result'
+                        resultPod = pod
+                except:
+                    print 'Unexpected Error: Problem finding result with Wolfram Alpha api'
+                    raise
+
+            txt = resultPod.find('.//plaintext')
+            txt2 = re.findall(r'<plaintext>(.*)</plaintext>', etree.tostring(txt))[0]
+            txt3 = re.sub(r'&#215;10\^','e',txt2) # fixes scientific notation
+            return txt3
+        else:
+            print 'No solution found using Wolfram api'
+            return None
 
 
 
