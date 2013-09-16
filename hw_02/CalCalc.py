@@ -33,7 +33,7 @@ $  7.3459e+22
 
     if force_wolfram == False:
         try:
-            return str(eval(inputStr))
+            return float(eval(inputStr))
         except:
                 print "Exception raised using python's eval().",
                 if force_eval == False: print  " Trying wolfram alpha instead." 
@@ -63,8 +63,8 @@ $  7.3459e+22
             for pod in pods:
                 try:
                     podDict =  dict(pod.items())
-                    if podDict['title']=='Result':
-                        print 'found result'
+                    if podDict['title']=='Result' or podDict['title']=='Value':
+                        print 'Found result:'
                         resultPod = pod
                 except:
                     print 'Unexpected Error: Problem finding result with Wolfram Alpha api'
@@ -73,17 +73,48 @@ $  7.3459e+22
             txt = resultPod.find('.//plaintext')
             txt2 = re.findall(r'<plaintext>(.*)</plaintext>', etree.tostring(txt))[0]
             txt3 = re.sub(r'&#215;10\^','e',txt2) # fixes scientific notation
-            return txt3
+            print txt3 # print complete result
+#             return float(txt3.split()[0]) 
         else:
             print 'No solution found using Wolfram api'
             return None
 
+        # attempt to condense result into a single numeric value
+        incDict = {'hundred':100.,'thousand':1000.,'million':1.0e6,'billion':1.0e9,
+                'trillion':1.0e12}
+        stxt = txt3.split()
+        for i,word in enumerate(stxt):
+            # find the first instance that can be cast to a 
+            try:
+                result = float(re.sub(r'\$','',word) )
+                try: # see if number is folloed by a modifier word in incDict
+                    result *= incDict[stxt[i+1]]
+                except:
+                    pass 
+                return result # return numeric result
+            except:
+                pass
+
+        print 'Unable to condense result into single numerical answer'
+        return txt3
 
 
 
+# tests
 def test_1():
     assert abs(4. - calculate('2**2')) < .001
 
+def test_2():
+    assert abs(3. - calculate('sqrt(9)')) < .001
+
+def test_3():
+    assert abs(2.5e-09 - calculate('Atomic Radius of hydrogen in cm')) < 0.1e-9
+
+def test_4():
+    assert abs(1.689e+12 - calculate('GDP of California 2005')) < .001e+12
+
+def test_5():
+    assert abs(6.67e-11 - calculate('Gravitational Constant')) < .01e-11
 
 # run from the command line
 if __name__ == '__main__':
