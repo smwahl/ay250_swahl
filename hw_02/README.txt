@@ -9,7 +9,12 @@ Calculator module for AY-250 python class.
 Evaluates any string passed to it, and can be used from either the command line. And return
 a numerical answer.
 Interacts with the Wolfram|Alpha API what when asked what it thinks is a  'difficult'.
-question.
+question. CalCalc then attempts to condense the result from wolfram alpha into a single 
+numeric answer. It takes into account answers that include the words million,billion,etc.
+
+############################################################################################
+Command line Usage:
+############################################################################################
 
 positional arguments:
   string_to_eval1  String to be evaluate.
@@ -28,6 +33,13 @@ $ 952
 
 $ python CalCalc.py 'mass of the moon in kg'
 $  7.3459e+22
+
+############################################################################################
+Script Usage:
+############################################################################################
+
+import CalCalc
+CalCalc.calculate(''mass of the moon in kg')
 
 ############################################################################################
 INSTALL
