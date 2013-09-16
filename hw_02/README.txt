@@ -32,7 +32,9 @@ $  7.3459e+22
 ############################################################################################
 INSTALL
 ############################################################################################
-Uncompress the tarbell and run the following:
+Uncompress the tarbell and install using the following commands:
 
+tar xzvf CalCalc-1.0.tar.gz
+cd CalCalc-1.0
 python setup.py install
 

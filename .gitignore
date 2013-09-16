@@ -17,7 +17,7 @@ eggs
 parts
 bin
 var
-sdist
+# sdist
 develop-eggs
 .installed.cfg
 lib
@@ -50,7 +50,7 @@ nosetests.xml
 *.iso
 *.jar
 *.rar
-*.tar
+# *.tar
 *.zip
 
 # Logs and databases #
