@@ -1,0 +1,104 @@
+Solution to homework 4, AY-250
+Author: Sean Wahl
+University of California Berkeley
+Wed Oct  2 04:16:11 PDT 2013
+
+--------------------------------------------------------------------------
+
+This solution uses a set of classified images to train a Random Forest 
+Classifier object to classify images into these classes.
+
+--------------------------------------------------------------------------
+
+Features:
+
+23 Features are included in the final vesion.
+
+    (0-3)
+    For a flattened (greyscale) image find the size, aspect ratio, mean 
+    and variance. 
+    
+    (4-6)
+    For each of the color channels find the ratio of means between each 
+    pair of color channels. 
+
+    (7-16)
+    For a vertical and horizontally averaged histogram
+    find the maximum and minumum normalized by the mean, as well as the variance.
+    
+    (17-18)
+    Using the scikit-image library features are also returned for the density of
+    edge-detections, a normalized sum of local entropy, the proportion of an image
+    taken up when thresholded. 
+    
+    (19-23)
+    For a segmentation of the flattened image the number of segments, 
+    largest segment size, segment size and segement size variance for a 
+    segmentation of the flattened image.
+    
+    Scikit-image features are sped up by shrinking image size. Local entropy feature 
+    disabled because not working with shrunken image
+
+--------------------------------------------------------------------------
+
+Files:
+
+All of the code is contained in hw_04.ipynb.
+
+Pickled lists containing features extracted from this dataset are included
+in the 'features/' directory. 'features/all.p' and 'features/all_names.p'
+hold the values and names of the most recent and complete set of extracted
+features.
+
+'categ2int.p' contains a pickled dictionary relating string names for each
+category in the test data to an integer value.
+
+'trained_classifier.p' contains a pickled skimage.RandomForestClassifer
+trained with the extracted features in 'features/all.p'
+
+--------------------------------------------------------------------------
+
+hw_04.ipynb:
+
+To apply the trained classifier:
+
+1)  Reload the classifier object, under "Saving and Reloading classifier 
+    Object"
+
+2)  Run the code defining the feature extraction function: 
+    'extract_features_all(image_path_list), under "Extraction of all features"
+
+3)  Run the code defining the run_final_classifier() function, under
+    "Defining and testing function for applying classifier to new datasets"
+
+4)  Apply the function by calling:
+
+    run_final_classifier(path = "/new/directory/path/", forest="./trained_classifier.p')
+
+How to generate and train and test the classifier:
+
+1) Run code under " Identifying file paths and setup for parallel extraction"
+
+2) Repeat 2) above, and run the code below to run the extraction
+
+3) Run code under "Formating extracted features for classifier" and 
+    "Train Classifier"
+
+To test by running cross validation:
+
+1) Run code under " Estimating prediction accuracy"
+
+--------------------------------------------------------------------------
+
+Results and Testing:
+
+   a) (5-fold) CV score
+        array([ 0.28621908,  0.29093051,  0.28504122,  0.29564193,  0.29834906])
+        
+   b) How much better this is than random guessing
+          ~30% compared to ~2% expected from random guessing
+
+   c) 3 most important features
+         1) Aspect Ratio
+         2) image size
+         3) skew (3rd moment) of the x histogram
