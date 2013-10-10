@@ -91,6 +91,8 @@ Ipython notebook file containing class for a client to use the server in hw_05_s
         Uploads a test image to the server, runs an example of each image manipulation 
         function, and then recovers a manipulated image.
 
+        Test image provide is: ./owl_0010.jpg
+
     Viewing saved files:
    
         Inline plots of images from varius stages of the server-client commumication
