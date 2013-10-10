@@ -6,18 +6,98 @@ Tue Oct  8 23:51:48 PDT 2013
 Problem 1: Write an XML-RPC server/client program pair.
 --------------------------------------------------------------------------------
 
+hw_05_server.ipynb:
+
+Ipython notebook file containing class for running an image manipulation server.
+
+    Image Manipulation Class:
+
+        class serverImageOperations(object):
+        ''' Object to run a server for simple image manipulations. Keeps
+        track of one 'current image', which is uploaded via getImage().
+        Successive manipulation can then be called on that image. Saves 
+        an image file upon initial upload, as well as each manipulation.'''
+
+        Basic Server Functions:
+            
+            getImage():
+            ''' Pull ndarray of image from client with along with name(or path). 
+            And save a copy of the image prior to any manipulations. Image is
+            sent as and reassembled from a list.
+            usage: server.getImage(newImageArray,(optional name)'''
+
+            revert():
+            ''' Revert current image to state before any manipulations.
+            Usage: server.revert()'''
+
+            exportImage():
+            ''' Return current image array in list form to client.'''
 
 
+        Image Manipulation Functions:
+            
+            toGreyscale():
+            '''Converts current RBG color image to a black and white image.
+            Usage: server.toGreyscale()''
 
+            scaleColorChannels():
+            ''' Allows user to change relative intensity of colors in
+            the image. Color channel is multiplied by a scale, and then
+            rounded to the nearest integer value. A scale value of 1 means 
+            the color channel retains its initial intensity. If scaled pixel value
+            exceeds maximum, it is set to the maximum value
+            Usage: server.scaleColorChannels(rscale=1.,bscale=1.,gscale=1.)'''
 
+            invertColorChannels():
+            ''' Invert image or specific color channels of an image. 
+            Usage: server.invertColorChannels() --> inverts entire image
+                   server.invertColorsChannels(r_invert=False) --> invert all channels but red.'''
 
+    Run Server:
 
+        Code to intialize and maintain server. Must restart kernal to stop.
 
+hw_05_client.ipynb:
 
+Ipython notebook file containing class for a client to use the server in hw_05_server.ipynb
 
+    Setup:
+        Import necessary packages and definte server information
 
+    Client-side functions:
+        
+        saveImage(imarr, fname):
+        '''Save a copy of an image.'''
 
+        uploadImage(fpath):
+        '''Upload an image with a given path to the server. Converts
+        image into an ndarray before sending, and saves a copy locally.
+        Converts image to a list before sending.'''
 
+        downloadImage(fname=None):
+        ''' Download current server image to client and save in 'clientDir'
+        in a file 'fname'. otherwise it will be saved in clientDir
+        with its associated name passed from the server.'''
+
+        printServerFunctions():
+        ''' Print available server functions '''
+
+    Connect to Server:
+
+        Code for connecting to the server and querying the available methods.
+
+    Upload and manipulate image:
+        
+        Uploads a test image to the server, runs an example of each image manipulation 
+        function, and then recovers a manipulated image.
+
+    Viewing saved files:
+   
+        Inline plots of images from varius stages of the server-client commumication
+
+        Images saved by the client are stored in: ./client_images
+
+        Images saved by the sever are stored in: ./server_images
 
 
 --------------------------------------------------------------------------------
