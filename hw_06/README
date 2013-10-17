@@ -72,3 +72,15 @@ between the weather at the first location and the weather at the second location
 
         topIndices(matrix,n):
         '''Return indices of the top n highest values from a 2darray'''
+
+-----------------------------------------------------------------------------------
+Results:
+
+The maximum correlations between any two cities show a clear decrease from 1 to 3 days
+and again to 3 to 7 days for both temperature and cloud cover. As time increases, the 
+range of locations increases in both distance and longitude separation. However, there
+continue to be highly correlated, nearby cities even 7 days later. 
+
+This inidicates that weather patterns take some minimum amount of time to reach a certain 
+distance away, but might have lasting effects on the immediate region as much as more distant
+locations.
