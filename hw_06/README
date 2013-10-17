@@ -1,0 +1,74 @@
+Solutions to AY-250 Homework 6
+Author: Sean Wahl
+University of California, Berkeley
+Wed Oct 16 22:52:55 PDT 2013
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+hw_06_generateDB.ipynb
+
+Creates a database with two tables 'airports' storing data about the location
+of the top 50 airports from 'ICAO_airports.csv' and 'top_airports.csv', and
+'weather' with all weather data for these airports starting at 2008-1-1.
+
+Database is saved to airports.db
+
+Note: The second table requires scraping of data from weatherunderground.com
+to generate and takes a long time. The code has a deficiency in that it 
+does not store any data for dates 
+
+Finally a helper array of ICAO codes for each airport is pickled for easy
+indexing for querying the database.
+
+
+--------------------------------------------------------------------------------
+
+hw_06_analyzeDB.ipynb
+
+Contains code for the solution to parts 4 and 5.
+
+Loads Data from airports.db (included in the repo) which was generated in 
+hw_06_generateDB.ipynb. For each pair of cities/airports, finds the correlation
+between the weather at the first location and the weather at the second location 
+1, 3 and 7 days later.
+
+    Setup:
+        
+        Load the database and the list of 50 airport codes.
+
+    Query Database:
+
+        SQL commands for finding the maximum temperature, and cloud cover are stored 
+        as sql_maxT_cmd and sql_cloud_cmd, respectively. 
+
+    Store Data and handle missing data:
+
+        Defines a function to convert query result with possible missing dates from
+        each airport into equally sized arrays any airport in the database
+
+        query2Array(query_result):
+        '''Fill arrays with data from a query result, verifying that indexing 
+        of both locations correspond to identical dates, and otherwise filling
+        with NaNs'''
+
+        Note: Due to a problem with the database generation, any dates for which
+        there was missing data were excluded from the database. Most importantly
+        the data from airport KORD was not stored because it was consistantly 
+        missing a field. I did not have time to recreate the database correctly.
+
+        This data is stored in temp_arrays and cloud_arrays.
+
+    Generate correlation matrices:
+
+        Creates 6 NxN arrays, where N is the number of queried airports, are generated 
+        tabulating the Pearson Correlation for the max temperature and cloud cover for
+        each pair of airports at 1, 3 and 7 days.
+
+    Select highest correlated pairs:
+
+        Identify the pairs of airports with the top 10 highest correlation coefficients
+        over each time period. For these get the latitude, longitude coordinates with
+        an sql query and calculate the distance and difference in longitude of each.
+
+        topIndices(matrix,n):
+        '''Return indices of the top n highest values from a 2darray'''
