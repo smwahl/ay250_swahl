@@ -111,3 +111,17 @@ Results and Testing:
          1) Aspect Ratio
          2) image size
          3) skew (3rd moment) of the x histogram
+
+--------------------------------------------------------------------------
+
+Run Validation :
+
+Code for testing validation:
+
+Generates the following files:
+
+    results.txt:
+    Textfile containing the predicted results and a summary of the  accuracy score.
+
+    confusion_matrix.pdf:
+    Visualization of the confusion matrix.
