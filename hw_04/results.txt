@@ -1,5 +1,6 @@
 Predicted image classes for Sean Wahl's classifier
-Accuracy score: 0.190296749882filename		predicted_class
+Accuracy score: 0.190296749882
+filename		predicted_class
 -----------------------------------------
 airplanes_0534.jpg	0
 airplanes_0535.jpg	0
