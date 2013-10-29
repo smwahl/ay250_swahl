@@ -12,10 +12,13 @@ smwahl@gmail.edu
 
 import numpy as np
 from matplotlib import pyplot as plt
-try:
-  from enthought.traits.api import HasTraits, Str, Float
-  from enthought.traits.ui.api import View, Group, Item
-except:
-  from traits.api import HasTraits, Str, Float 
-  from traitsui.api import View, Group, Item 
 
+# try:
+#   from enthought.traits.api import HasTraits, Str, Float
+#   from enthought.traits.ui.api import View, Group, Item
+# except:
+#   from traits.api import HasTraits, Str, Float 
+#   from traitsui.api import View, Group, Item 
+
+from traits.api import HasTraits, Str, Float 
+from traitsui.api import View, Group, Item 
