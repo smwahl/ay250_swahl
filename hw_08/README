@@ -1,0 +1,19 @@
+Solutions to AY-250 Homework 8
+Author: Sean Wahl
+University of California, Berkeley
+Wed Oct 30 23:07:57 PDT 2013
+------------------------------------------------------------------------------------------
+
+An image search GUI application written using Tk, matplotlib and the google image 
+search API.
+
+The Solution is written in the ipython notebook "image_gui.ipynb".
+
+To run the application run all cells following the section labeled "GUI Application".
+
+The GUI has a search bar for entering search terms. Upon hitting the "search" button,
+the application determines the first image returned by the google image search API,
+displaying the source url and the image itself. Dummy buttons provide the layout
+for where additional options would be ( I didn't have time to implement the image
+manipulations). Finally a quit button is provided to gracefully close the window.
+The image is saved to a new file 'dl_image.jpg'. 
