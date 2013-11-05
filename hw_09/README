@@ -1,0 +1,44 @@
+Solutions to AY-250 Homework 9
+Author: Sean Wahl
+University of California, Berkeley
+Wed Oct 30 23:07:57 PDT 2013
+------------------------------------------------------------------------------------------
+
+A comparison of calculation times for a simple algorithm implemented with serial,
+multiprocessing and paralell forms.
+
+The code is contained in the ipython notebook 'hw_08.ipynb' and contains functions to
+approximate pi, by a simplistic 'dart-throwing' algorithm. Taking as an argument the 
+number of 'darts' and returning the execution time, simulation rate and value
+
+    pi_dart_serial(num_darts):
+        '''
+        Serial implementation of Monte Carlo determination of Pi.
+        Returns the execution time, the simulation rateand the approximate value of Pi.
+        '''
+
+    pi_dart_multiproc(p,num_proc,num_darts):
+        '''
+        Multiprocessor implementation of Monte Carlo determination of Pi.
+        Returns the execution time, the simulation rateand the approximate value of Pi.
+        '''
+
+    pi_dart_parallel(p,num_proc,num_darts):
+        '''
+        Parallel implementation of Monte Carlo determination of Pi.
+        Returns the execution time, the simulation rateand the approximate value of Pi.
+        '''
+
+These functions are then run for a variety of different numbers of darts
+and the results are printed in comparison_e6.png.
+
+Here we see that for low numbers of darts the serial implementation is the fastest, because
+it has the lowest overhead, followed by the multiprocessor and parallel implementations. 
+As the number of darts increases, first the multiprocessor implementation and then the parallel
+implementation surpass the speed of the serial implementation, because the number of repeated 
+steps must be done less times in the parallelized implementations. Finally at large numbers 
+of darts the multiprocessor and parallel implementations asymptote to the same slope, which is 
+very nearly parallel to the asymptote for the serial implementation. This asymptotic behavior
+is the limit where the overhead for each method is negligible. The separation between the two
+paralellized methods and the serial method is nearly a factor of two, which makes sense as 
+the macbook air the tests are run on contains only two truly separate cores.
