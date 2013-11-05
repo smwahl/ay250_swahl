@@ -25,7 +25,7 @@ number of 'darts' and returning the execution time, simulation rate and value
 
     pi_dart_parallel(p,num_proc,num_darts):
         '''
-        Parallel implementation of Monte Carlo determination of Pi.
+        Parallel implementation of Monte Carlo determination of Pi using ipython clusters.
         Returns the execution time, the simulation rateand the approximate value of Pi.
         '''
 
