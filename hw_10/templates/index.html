@@ -1,0 +1,9 @@
+<a href="{{ url_for('upload_bibtex') }}">Upload Collection</a> or
+<a href="{{ url_for('query_collection') }}">Query Collection</a>
+
+<p>{{ status_text }}</p>
+
+
+{% for item in col_list %}
+<td>{{loop.index}}. {{item}}</td>
+{% endfor %}
