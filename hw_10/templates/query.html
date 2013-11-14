@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<title>BibTeX Viewer | Upload a Collection</title>
+<body>
+
+<a href="{{ url_for('site_index') }}">Return to Main Page</a> 
+
+<p>
+Please insert a new collection by uploading a BibTeX file with the form below.<br>
+Use SQL query syntax to enter the query string that follows the "WHERE".<br>
+Column names are "citation_tag", "author_list", "journal", "volume" (integer), "pages", 
+"year" (integer), "title", and "collection".<br>
+To use wildcards, use "LIKE" and employ the "%" (percent symbol) as multiple character 
+wildcard and "_" (underscore) as single character wildcard.<br>
+Make sure to explicitly put string in quotes.
+</p> 
+
+<form action="" method=post enctype=multipart/form-data>
+  <p>Query String: <input type=text name=query>
+     <input type=submit value=Query>
+</form>
+
+<p>{{ result_text | safe }}</p>
+
+</body>
+</html>
