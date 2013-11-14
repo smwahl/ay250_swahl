@@ -1,0 +1,33 @@
+Solutions to AY-250 Homework 10
+Author: Sean Wahl
+University of California, Berkeley
+Wed Nov 13 21:54:02 PST 2013
+------------------------------------------------------------------------------------------
+
+A web BibTeX viewer.
+
+Allows uploading of .bib files, and querying entries with an SQL query syntax.
+
+------------------------------------------------------------------------------------------
+
+Run using:
+
+>> python bibtex_query.py
+
+------------------------------------------------------------------------------------------
+
+The webapp has:
+
+    1) A main page that gives the status of the database, listing the collections currently added. Provides links to pages for uploading to and querying the database.
+
+    2) An upload page that provides a form for uploading a .bib file with a name for the collection. Adds the bibtex entries to the database using the  parse_collection() function.
+
+    3) A query page that provides an interface for querying the database by passing an SQL query string.
+
+------------------------------------------------------------------------------------------
+
+Requrires html templates store in './templates/'
+
+Save uploats locally to './uploads/'
+
+Saves local sqlite3 database to './test.db'
