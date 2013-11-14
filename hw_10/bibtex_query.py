@@ -156,6 +156,7 @@ def query_collection():
         sql_cmd = "Select * From Paper WHERE " + query
         try:
             result = db.engine.execute(sql_cmd)
+            output = ''
             for row in result:
                 output += repr(row)  + '\n' 
 
