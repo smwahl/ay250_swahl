@@ -1,9 +1,19 @@
-<a href="{{ url_for('upload_bibtex') }}">Upload Collection</a> or
+<!doctype html>
+<html>
+<title>BibTeX Viewer | Main Page</title>
+<body>
+
+<a href="{{ url_for('upload_bibtex') }}">Upload Collection</a> --
 <a href="{{ url_for('query_collection') }}">Query Collection</a>
 
 <p>{{ status_text }}</p>
 
-
 {% for item in col_list %}
 <td>{{loop.index}}. {{item}}</td>
+<p></p>
 {% endfor %}
+
+<p>{{ result_text }}</p>
+
+</body>
+</html>

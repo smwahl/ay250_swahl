@@ -6,12 +6,8 @@ from sqlalchemy import Table, Column, Integer, String, MetaData
 from sqlalchemy.orm import mapper
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test6.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
-# metadata = MetaData()
-# engine = db.create_engine('sqlite:////tmp/test5.db')
-
-# metadata = db.MetaData
 
 app.debug = True
 collections = []
@@ -62,19 +58,6 @@ def parse_collection(coll,fname):
     # Extraneous characters to remove from fields before storing
     rx = re.compile('[{}\[\]]')
 
-    # add a new table
-#     new_table = Table(coll, metadata,
-#             Column('citation_tag', String, primary_key=True),
-# #             Column('citation_tag', String),
-#             Column('author_list', String),
-#             Column('journal', String), 
-#             Column('volume', String), 
-#             Column('pages', String), 
-#             Column('year', Integer), 
-#             Column('title', String), 
-#             Column('collection', String) )
-# 
-#     new_table.create(bind=engine)
 
     #loop through the individual references
     for bib_id in bibdata.entries:
@@ -97,8 +80,6 @@ def parse_collection(coll,fname):
             for author in bibdata.entries[bib_id].persons["author"]:
                 authorlist += '{1}, {0};'.format(author.first()[0], rx.sub('',author.last()[0]) )
                 entry.update({'author_list':authorlist})
-
-    #         print entry
 
             # create an entry object and add to database
 #             new_paper = Paper( entry, collname=coll )
@@ -136,7 +117,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def site_index():
     if len(collections) > 0:
         text = 'A database is present. These are your available collections:'
     else:
@@ -146,6 +127,7 @@ def index():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_bibtex():
+    text = ''
     if request.method == 'POST':
         coll = request.form['coll_name']
 #         file = request.files['file']
@@ -155,46 +137,39 @@ def upload_bibtex():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             # run bibtex parser
-
-#             coll = 'astro'
-            print coll
             collections.append(coll)
             parse_collection(coll,filename)
 
-            print collections
+            return redirect(url_for('site_index'))
+        else:
+            text = 'Application accepts only BibTeX files with a .bib extension.'
 
-            return redirect(url_for('index'))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p>Collection Name: <input type=text name=coll_name>
-         <input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('upload.html',result_text=text)
 
         
 
 @app.route('/query', methods=['GET', 'POST'])
 def query_collection():
-#     print " ".join([str(x) for x in Paper.query.all()])
-#     return 'Not yet implemented.'
-#     print collections
-    sql_cmd = "Select * From Paper WHERE year < 1990"
-    result = db.engine.execute(sql_cmd)
-    output = ''
-    for row in result:
-        output += repr(row)  + '\n' 
-    return output
+    text = 'No Query results to display.'
+    if request.method == 'POST':
+        query = request.form['query']
+        sql_cmd = "Select * From Paper WHERE " + query
+        try:
+            result = db.engine.execute(sql_cmd)
+            for row in result:
+                output += repr(row)  + '\n' 
+
+            if len(output) == 0:
+                text = 'No Query results to display.'
+            else:
+                text = output
+        except:
+            text = 'Invalid query'
+
+    return render_template('query.html',result_text=text)
 
 
 if __name__ == "__main__":
-
-#     coll_name='my_collection'
-#     fname = 'homework_10_refs.bib'
-#     parse_collection(db,coll_name,fname)
 
     app.run()
  
