@@ -26,14 +26,20 @@ num_hits = month['H']
 N = month['AB']
 avg = num_hits / N.astype(float)
 
+
 # priors on mu_i
-# alpha: 43.7846590909 beta: 127.919886364
 alpha = 43.7846590909
 beta = 127.919886364
-mui = pymc.Beta('mui',alpha,beta)
 
-xi = np.empty(len(month.index))
+x = np.empty(len(month.index),dtype=object)
+
 #likelihoods
+mu = np.empty(len(month.index),dtype=object)
+
 for i in month.index:
 
-    xi[i] = pymc.Binomial('x'+str(i), n=N[i], p=mui, value=num_hits[i],observed=True)
+    #priors
+    mu[i] = pymc.Beta('mu_%i' % i,alpha,beta)
+
+    #likelihoods
+    x[i] = pymc.Binomial('x_%i' % i, n=N[i], p=mu[i], value=num_hits[i],observed=True)
