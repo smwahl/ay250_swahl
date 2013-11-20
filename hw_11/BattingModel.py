@@ -20,6 +20,7 @@ import pandas as pd
 
 # read in data
 month = pd.read_csv('hw_11_data/laa_2011_april.txt',sep='\t')
+month.sort(columns='Player',inplace=True) # sort for consistancy with final results
 
 # data arrays
 num_hits = month['H'] 
