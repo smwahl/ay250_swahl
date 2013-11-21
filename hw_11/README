@@ -1,0 +1,19 @@
+Solutions to AY-250 Homework 11
+Author: Sean Wahl
+University of California, Berkeley
+Thu Nov 21 00:41:15 PST 2013
+------------------------------------------------------------------------------------------
+
+The statistical model is contained in BattingModel.py.
+
+The solution, results and plots are in an ipython notebook, hw_11.ipynb .
+
+10 out of 13 of the players had full season batting averages within the 95% confidence intervals predicted by the model.
+
+Open using by running the command:
+>> ipython notebook
+
+Note:
+The input files in hw_11_data were modified manually to remove an extra tab in the
+first line.
+
