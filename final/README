@@ -1,0 +1,11 @@
+SS_util : A utility for simulations of solid solutions
+AY-250 Final Project
+Author: Sean Wahl
+University of California, Berkeley
+Mon Nov 25 10:47:10 PST 2013
+------------------------------------------------------------------------------------------
+
+The codebase provides a utility for simulating solid solutions. Given a structure and
+a rule for atomic substitution, will generate all unique configurations and keep track 
+of multiplicities. Includes functions for reading and writing input files for the VASP
+density functional theory code.
