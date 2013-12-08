@@ -1,42 +1,35 @@
-System = liquid
-NWRITE = 1
-
-#Startparameter for this Run (values of parameters are equalt to default):
+SYSTEM = ortho_pv  
+NWRITE = 1    verbosity (in OUTCAR)
 ISTART = 0   0=new, 1=wave, 2=same cutoff&latt (1&2 need WAVECAR file)
 ICHARG = 2    0=charge from wave, 1=charge from CHGCAR, 2=atom superpos.
 LWAVE  = .FALSE.
 LCHARG = .FALSE.
 
-ENCUT = 900 eV
+PREC = high #Normal              #  precision normal
+ENCUT = 1200                #  cutoff used throughout all calculations
+LREAL = .TRUE.  or Auto   #  real space projection yes / no
+ISIF = 3  (3:force=y stress=y ions=y shape=y volume=y,
+ISMEAR = 0      #  method to determine partial occupancies
+SIGMA = .05    #broadening in eV (.05 for ismear 0, .2 for ismear 1-2)
+ISYM = 1        1=use symmetry, 0 = no symmetry
+POTIM   = 0.2   initial time step for geo-opt (increase for soft sys)
+PSTRESS = 600.0 kbar
 
-IALGO = 48
-LREAL = .TRUE. Evaluate projection operators in real space
-NELMIN = 8
-BMIX = 2.0
-MAXMIX = 50
+NELMIN = 8           #  do a minimum of four electronic steps
+EDIFF  = 1E-6        #  low accuracy
+EDIFFG = -0.0001        #  accuracy of ions not too high
+NSW = 1000 #  (try many ionic steps since large structure)
+#IBRION =  2          #  use CG algorithm
+MAXMIX = 80    #   keep dielectric function between ionic movements
 
-IBRION = 0
-ISYM = 0    symmetry: 0 for no symmetry
-NSW = 2000
-NBLOCK = 1
-KBLOCK = 100
-ISIF = 2
 
-SMASS = 0.0
-POTIM = 0.8 fs
-TEBEG = 6000    # 6000
-#PSTRESS = +1360.00 kbar (136 GPa)
+IBRION =  1    #   use RMM-DIIS algorithm for ions
+NFREE  =  20   #   estimated degrees of freedom of the system
 
-#PMASS = 0.1
-#EXTERNAL_PRESSURE = 40000.0 kbar
 
-#MIX_EFFPOT = 0.000  lambda
-
-ISMEAR = -1 #MP
-NBANDS = 384
-SIGMA = .51704053807276566000     # 6000 K
+ Electronic Relaxation 2
+#IALGO  = 48     algorithm (8=CG for small, 48=RMM for big systems)
 
 LPLANE = .TRUE.
-NPAR = 2
-NSIM = 4
-
+NPAR   = 2 
+NSIM   = 4 

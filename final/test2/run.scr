@@ -1,21 +1,20 @@
-#PBS -S /bin/tcsh
-#PBS -N MgSiOpv274
-#PBS -l select=4:ncpus=16:model=san
-#PBS -l walltime=0:10:00
+#!/bin/tcsh
+#PBS -N MgSiOpv158
+#PBS -l nodes=2:ppn=8:fill
 #PBS -j oe
 #PBS -m ae
-#PBS -W group_list=s1146
-#PBS -q devel
+#PBS -r n
 
-date
 cd $PBS_O_WORKDIR
+pwd
+date
 
-@ i = 1
+@ i = 1 
 
 if (-e CONTCAR) then
 
     while (-e out$i)
-        @ i = $i + 1
+        @ i = $i + 1 
         echo $i
     end
 
@@ -27,19 +26,16 @@ if (-e CONTCAR) then
     mv $files out$i
 
     cp out${i}/{KPOINTS,POTCAR,REFCAR,log01,TRAJECTORYn1} .
+#    cp out${i}/Poten*.dat .
     cp out${i}/CONTCAR POSCAR
 
-
-    cp out1/INCAR . #use initial INCAR file and decrement steps
+    cp out${i}/INCAR . #use initial INCAR file and decrement steps
 #    ~/scripts/decsteps
 
 endif
 
 
-module load comp-intel/2011.4.191 mpi-sgi/mpt.2.06rp16
-
-mpiexec /u/smwahl/packages/vasp.4.6.35/vasp.4.6_O3_no_thread_parallel/vasp  > out
+mpiexec /home/swahl/bin/vasp_spline > out
 
 date
 exit 0
-
