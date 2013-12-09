@@ -1,5 +1,0 @@
-Automatic mesh
-0              ! number of k-points = 0 ->automatic generation scheme 
-MP          ! generate a Monkhorst-Pack grid
-12   12   9  
-0. 0. 0.       ! optional shift of the mesh (s_1, s_2, s_3)

@@ -1,11 +1,90 @@
-SS_util : A utility for simulations of solid solutions
+SSUTIL : A utility for simulations of solid solutions
 AY-250 Final Project
 Author: Sean Wahl
 University of California, Berkeley
-Mon Nov 25 10:47:10 PST 2013
+Sun Dec  8 21:59:35 PST 2013
 ------------------------------------------------------------------------------------------
 
 The codebase provides a utility for simulating solid solutions. Given a structure and
 a rule for atomic substitution, will generate all unique configurations and keep track 
 of multiplicities. Includes functions for reading and writing input files for the VASP
-density functional theory code.
+density functional theory code. 
+
+This project uses object oriented programing, advanced numpy concepts, and pandas. 
+
+Two modules are included:
+
+    parse_vasp:
+        
+        Library, defines the vasp_run object, an object to store data about DFT
+        simulations using VASP. This tracks the necessary files for starting a 
+
+    ssutil:
+
+        Module for generating and organizing the necessary files for simulations of solid 
+        solutions in VASP. For a given system, spacegroup, and substituition rule it 
+        identifies all unique configurations of atoms, and the number of equivalent
+        configurations that arise from the symmetry of the simulated cell. It then
+        generates all of the necessary imput files, and stores relavent information
+        in a pickled pandas DataFrame for future analysis.
+
+------------------------------------------------------------------------------------------
+Usage:
+
+    An ipython notebook 'workflow_example.ipynb' has been provided with a working example. 
+    Access by running:
+
+        >  ipython notebook
+
+    This example sets up a set of VASP runs for all necessary configurations in a 64-atom
+    supercell of the B1 (rock-salt) structure with an (Mg,Fe)O solid solution.
+
+------------------------------------------------------------------------------------------
+Example details:
+
+    I did not have time to complete the simulations themselves for the project deadline.
+        
+    The data for the initial cell is stored in 'test3'. The most important run files
+    that are modified by the solid solution code are:
+
+        POSCAR, REFCAR: input files detailing the size and shape of the simulated cell
+        as well as the position of all atoms within the cell
+
+        POTCAR: An input file containing all the pseudopotential model of each type of atom
+        included in the cell. For the solid solution an additional pseudopotential is added.
+        These are stored in './potentials' for which parse_vasp recognizes the location.
+
+        INCAR, KPOINTS and run.scr are the other VASP input files, they are copied to the
+        solid solution runs without modification.
+
+    When the example code is run it will create a subdirectory 'ss_runs' containing directories
+    with runfiles corresponding to each unique configuration of atoms.
+
+    The cell definiing files contain:
+        [ Vectors representation of size shape of cell]
+        [ Vector representing number of each included species]
+        [ Vectors containing positions for each species in a block]
+
+    The new species is added as a block of positions in between the other two. So a 2 / 32 
+    substituion of Fe into the structure has a spcies line:
+
+        30 2 32
+
+    The potential files are quile long clutered files, but the species contained can be checked
+    using the shell command:
+
+        > grep RH POTCAR
+        >    VRHFIN =Mg: p6s2
+        >    VRHFIN =O: s2p4
+
+    All the important quantities and file locations are then saved to a pandas dataframe, which
+    is pickled for later analysis.
+
+    The default location for this dataframe is './ss_archive.df'
+
+------------------------------------------------------------------------------------------
+
+The algorithm for finding the unique positions is rather inefficient, and rapidly becomes 
+quite slow with increasing N. Large number of N are also likely unreasonable to simulate
+in VASP, since each simulation is quite resource intensive. Nontetheless the nested loops 
+in the 'findUniqueCombs' function might be significantly sped up by optimization or Cython.
