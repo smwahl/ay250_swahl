@@ -1,0 +1,45 @@
+#PBS -S /bin/tcsh
+#PBS -N MgO152
+#PBS -l select=4:ncpus=16:model=san
+#PBS -l walltime=8:00:00
+#PBS -j oe
+#PBS -m ae
+#PBS -W group_list=s1146
+#PBS -q normal
+
+date
+cd $PBS_O_WORKDIR
+
+@ i = 1
+
+if (-e CONTCAR) then
+
+    while (-e out$i)
+        @ i = $i + 1
+        echo $i
+    end
+
+    mkdir out$i
+
+    echo "Old CONTCAR found. Moving files into "out$i
+
+    set files = (`find . -not -name "*run.scr" -not -name "Poten*.dat" -maxdepth 1 -and -not -type d`)
+    mv $files out$i
+
+    cp out${i}/{KPOINTS,POTCAR,REFCAR,log01,TRAJECTORYn1} .
+    cp out${i}/CONTCAR POSCAR
+
+
+    cp out1/INCAR . #use initial INCAR file and decrement steps
+#    ~/scripts/decsteps
+
+endif
+
+
+module load comp-intel/2011.4.191 mpi-sgi/mpt.2.06rp16
+
+mpiexec /u/smwahl/packages/vasp.4.6.35/vasp.4.6_O3_no_thread_parallel/vasp  > out
+
+date
+exit 0
+

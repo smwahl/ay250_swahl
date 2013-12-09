@@ -1,0 +1,43 @@
+System = B1 MgO
+NWRITE = 1
+
+#Startparameter for this Run (values of parameters are equalt to default):
+ISTART = 0   0=new, 1=wave, 2=same cutoff&latt (1&2 need WAVECAR file)
+ICHARG = 2    0=charge from wave, 1=charge from CHGCAR, 2=atom superpos.
+LWAVE  = .FALSE.
+LCHARG = .FALSE.
+
+ENCUT = 800 eV
+
+IALGO = 48
+LREAL = .TRUE. Evaluate projection operators in real space
+NELMIN = 8
+BMIX = 2.0
+MAXMIX = 50
+
+IBRION = 0
+ISYM = 0    symmetry: 0 for no symmetry
+NSW = 2000
+NBLOCK = 1
+KBLOCK = 100
+ISIF = 2
+
+SMASS = 0.0
+POTIM = 0.5 fs
+TEBEG = 8000    # 8000
+#PSTRESS = +1360.00 kbar (136 GPa)
+
+#PMASS = 0.1
+#EXTERNAL_PRESSURE = 40000.0 kbar
+
+# MIX_EFFPOT = 1.0
+
+ISMEAR = -1 #MP
+NBANDS = 240
+SIGMA = .68938738409702088000     # 8000 K
+
+LPLANE = .TRUE.
+NPAR = 8
+NSIM = 2
+
+IWAVPR = 11
