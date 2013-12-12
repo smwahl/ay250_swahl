@@ -154,8 +154,9 @@ def subCombinations(run,sub_rule,n_sub):
     of integers is provided, a list of arrays containing the combinations for each 
     number of substitutions.'
     '''
+
     assert isinstance(run,vasp_run), 'Run must be specified by a vasp_run object.'
-    assert len(run.spec) > 0, 'No species defined in vasp_run "{}"'.format(myRun.name)
+    assert len(run.spec) > 0, 'No species defined in vasp_run "{}"'.format(run.name)
         
     # Check that only one rule is to be applied and save in a dict
     sub_rule_errText = 'Only single substitutions allowed.'
@@ -179,7 +180,7 @@ def subCombinations(run,sub_rule,n_sub):
         if s == rule.keys()[0]:
             idxs = np.arange(x, x + run.nspec[i])
         x += run.nspec[i]
-    
+
     # Check that n_sub is valid number for the given cell
     n_sub_errText = 'Invalid number of substitutions for cell with {} {} atoms.'.format(len(idxs),\
                                                                      rule.keys()[0])
@@ -190,13 +191,12 @@ def subCombinations(run,sub_rule,n_sub):
         nums = n_sub
     else:
         raise ValueEror(n_sub_errText)
-    
+
     # store combinations for each n_sub
     results = []
     for n in nums:
         assert isinstance(n,int), n_sub_errText
         assert n >= 0 and n <= len(idxs), n_sub_errText
-        
         
         # generate combinations
         combs = np.array([ x for x in combinations(idxs,n) ])
@@ -206,7 +206,7 @@ def subCombinations(run,sub_rule,n_sub):
 #         if combs.shape[0] != \
 #         factorial(len(idxs)) / float(factorial(n)) / float(factorial(len(idxs)-n)) :
 #             warn('Number of combinations generated is different than expected.')
-#         results.append(combs)
+        results.append(combs)
 
     # return most reasonable type based on the number of 
     if len(results) == 1:
@@ -301,17 +301,19 @@ def findUniqueCombs(run,combs,gen,tran=None,cell_shift=None,cell_rot=None,verbos
         prev_nmatches = 0 # previous number of matches
         untested = [a]#         # outer loop, stop when no new equivalent configurations found
 
+        lcount = 0
         while len(untested) > 0:
+
             new = []
             for u in untested:
                 for g in gen:
                     b = apply_gen(u,g)
                     
                     repeat = False
+                    tmp = matches
                     for m in matches:
                         if np.sum(np.abs(m - b)) <= tol:
                             repeat = True
-                    #print matches
                     
                     # add match if it is not identical to previous matches
                     if not repeat:
@@ -320,7 +322,8 @@ def findUniqueCombs(run,combs,gen,tran=None,cell_shift=None,cell_rot=None,verbos
                         
             # prepare for next iteration        
             untested = new
-    
+            lcount += 1 
+        
         # apply translations
         if not tran is None:
             tmatches = []
@@ -388,10 +391,10 @@ def make_ss_runs(run,rule,unique_pos,multip,df_path='./ss_archive.df'):
     os.makedirs(ss_dir)
     
     new_runs = []
-    for i,comb in enumerate(uni):
+    for i,comb in enumerate(unique_pos):
         ss_run = os.path.join(ss_dir,'run_'+'{:03d}'.format(i) )
         os.makedirs(ss_run)
-        new_run = myRun.copyToLoc(ss_run,refcarToPoscar=True)
+        new_run = run.copyToLoc(ss_run,refcarToPoscar=True)
         new_runs.append(new_run)
         
         nspec_i = run.nspec

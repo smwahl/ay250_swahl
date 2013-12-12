@@ -28,10 +28,28 @@ Two modules are included:
         generates all of the necessary imput files, and stores relavent information
         in a pickled pandas DataFrame for future analysis.
 
+
+------------------------------------------------------------------------------------------
+dependencies:
+
+    requests
+    bs4 (BeautifulSoup)
+    numpy
+    scipy
+    pandas
+
+These can be installed (using the Anaconda python distribution) via:
+    conda install requests
+    conda install numpy
+    conda install scipy
+    conda install pandas
+    conda install ipython
+    pip install beautifulsoup4
+
 ------------------------------------------------------------------------------------------
 Usage:
 
-    An ipython notebook 'workflow_example.ipynb' has been provided with a working example. 
+    An ipython notebook 'workflow.ipynb' has been provided with a working example. 
     Access by running:
 
         >  ipython notebook
