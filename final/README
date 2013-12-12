@@ -10,7 +10,8 @@ a rule for atomic substitution, will generate all unique configurations and keep
 of multiplicities. Includes functions for reading and writing input files for the VASP
 density functional theory code. 
 
-This project uses object oriented programing, advanced numpy concepts, and pandas. 
+This project uses object oriented programing, interaction with the web, advanced numpy 
+concepts, and pandas dataframes. 
 
 Two modules are included:
 
